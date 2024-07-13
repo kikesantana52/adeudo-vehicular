@@ -1,0 +1,15 @@
+{
+  "name": "adeudo-vehicular",
+  "version": "1.0.0",
+  "description": "Selenium based automated tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luis Santana",
+  "license": "ISC",
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "selenium-webdriver": "^4.21.0"
+  }
+}
