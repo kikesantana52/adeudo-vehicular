@@ -2,7 +2,7 @@
   "name": "adeudo-vehicular",
   "version": "1.0.0",
   "description": "Selenium based automated tool",
-  "main": "index.js",
+  "bin": "adeudo-vehicular.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

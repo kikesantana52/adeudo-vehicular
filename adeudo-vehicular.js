@@ -4,9 +4,6 @@ const ExcelJS = require("exceljs");
 async function main() {
   let driver = await new Builder().forBrowser(Browser.CHROME).build();
   console.log("************INICIANDO PROGRAMA*************");
-  console.log(
-    "************NO MUEVAS MOUSE NI TECLADO HASTA QUE TERMINE (DURACION APROXIMADA 3 MIN)*************"
-  );
   const vehiculos = await getVehiculos();
   console.log(
     `************${vehiculos.length} vehiculos encontrados************`
@@ -171,11 +168,22 @@ async function getMultasConFechas(driver, multasRaw) {
             .getText();
           fechaValue = fecha.substring(7).trim();
         }
+        // if (fechaValue === "") {
+        //   await driver.get(
+        //     `https://gobiernoenlinea1.jalisco.gob.mx/serviciosVehiculares/visorInfraccion/SC/${multa[2].substring(
+        //       4
+        //     )}`
+        //   );
+        //   const fecha = await driver
+        //     .findElement(
+        //       By.xpath("/html/body/div/div/form/div/div[2]/div[2]/div")
+        //     )
+        //     .getText();
+        //   fechaValue = fecha.substring(7).trim();
+        // }
         fechasPorId[multa[2].substring(4)] = fechaValue;
         multa.push(fechaValue);
-      } catch (error) {
-        console.log(multa[2]);
-      }
+      } catch (error) {}
       multas.push(multa);
     }
   }
