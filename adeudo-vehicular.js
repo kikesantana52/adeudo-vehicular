@@ -144,7 +144,7 @@ async function getMultasConFechas(driver, multasRaw) {
     } else {
       try {
         await driver.get(
-          `https://gobiernoenlinea1.jalisco.gob.mx/serviciosVehiculares/visorInfraccion/FE/${multa[2].substring(
+          `https://gobiernoenlinea1.jalisco.gob.mx/serviciosVehiculares/visorInfraccion/SC/${multa[2].substring(
             4
           )}`
         );
@@ -155,6 +155,19 @@ async function getMultasConFechas(driver, multasRaw) {
           .getText();
         let fechaValue = fecha.substring(7).trim();
 
+        if (fechaValue === "") {
+          await driver.get(
+            `https://gobiernoenlinea1.jalisco.gob.mx/serviciosVehiculares/visorInfraccion/FE/${multa[2].substring(
+              4
+            )}`
+          );
+          const fecha = await driver
+            .findElement(
+              By.xpath("/html/body/div/div/form/div/div[2]/div[2]/div")
+            )
+            .getText();
+          fechaValue = fecha.substring(7).trim();
+        }
         if (fechaValue === "") {
           await driver.get(
             `https://gobiernoenlinea1.jalisco.gob.mx/serviciosVehiculares/visorInfraccion/SIGA/${multa[2].substring(
@@ -168,19 +181,6 @@ async function getMultasConFechas(driver, multasRaw) {
             .getText();
           fechaValue = fecha.substring(7).trim();
         }
-        // if (fechaValue === "") {
-        //   await driver.get(
-        //     `https://gobiernoenlinea1.jalisco.gob.mx/serviciosVehiculares/visorInfraccion/SC/${multa[2].substring(
-        //       4
-        //     )}`
-        //   );
-        //   const fecha = await driver
-        //     .findElement(
-        //       By.xpath("/html/body/div/div/form/div/div[2]/div[2]/div")
-        //     )
-        //     .getText();
-        //   fechaValue = fecha.substring(7).trim();
-        // }
         fechasPorId[multa[2].substring(4)] = fechaValue;
         multa.push(fechaValue);
       } catch (error) {}
