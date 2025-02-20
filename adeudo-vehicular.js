@@ -137,6 +137,11 @@ async function getMultasConFechas(driver, multasRaw) {
     ],
   ];
   const fechasPorId = {};
+  const VISORES_DE_INFRACCIONES = [
+    "https://gobiernoenlinea1.jalisco.gob.mx/serviciosVehiculares/visorInfraccion/SC/",
+    "https://gobiernoenlinea1.jalisco.gob.mx/serviciosVehiculares/visorInfraccion/SIGA/",
+    "https://gobiernoenlinea1.jalisco.gob.mx/serviciosVehiculares/visorInfraccion/FE/",
+  ];
   for (const multa of multasRaw) {
     if (fechasPorId[multa[2].substring(4)]) {
       multa.push(fechasPorId[multa[2].substring(4)]);
