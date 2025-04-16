@@ -134,6 +134,7 @@ async function getMultasConFechas(driver, multasRaw) {
       "Importe",
       "Tipo (P o R)",
       "Fecha",
+      "Link",
     ],
   ];
   const fechasPorId = {};
@@ -148,23 +149,11 @@ async function getMultasConFechas(driver, multasRaw) {
       multas.push(multa);
     } else {
       try {
-        await driver.get(
-          `https://gobiernoenlinea1.jalisco.gob.mx/serviciosVehiculares/visorInfraccion/SC/${multa[2].substring(
-            4
-          )}`
-        );
-        const fecha = await driver
-          .findElement(
-            By.xpath("/html/body/div/div/form/div/div[2]/div[2]/div")
-          )
-          .getText();
-        let fechaValue = fecha.substring(7).trim();
-
-        if (fechaValue === "") {
+        let fechaValue = "";
+        let link = "";
+        for (let i = 0; i < VISORES_DE_INFRACCIONES.length; i++) {
           await driver.get(
-            `https://gobiernoenlinea1.jalisco.gob.mx/serviciosVehiculares/visorInfraccion/FE/${multa[2].substring(
-              4
-            )}`
+            `${VISORES_DE_INFRACCIONES[i]}${multa[2].substring(4)}`
           );
           const fecha = await driver
             .findElement(
@@ -172,22 +161,14 @@ async function getMultasConFechas(driver, multasRaw) {
             )
             .getText();
           fechaValue = fecha.substring(7).trim();
-        }
-        if (fechaValue === "") {
-          await driver.get(
-            `https://gobiernoenlinea1.jalisco.gob.mx/serviciosVehiculares/visorInfraccion/SIGA/${multa[2].substring(
-              4
-            )}`
-          );
-          const fecha = await driver
-            .findElement(
-              By.xpath("/html/body/div/div/form/div/div[2]/div[2]/div")
-            )
-            .getText();
-          fechaValue = fecha.substring(7).trim();
+          if (fechaValue !== "") {
+            link = `${VISORES_DE_INFRACCIONES[i]}${multa[2].substring(4)}`;
+            break;
+          }
         }
         fechasPorId[multa[2].substring(4)] = fechaValue;
         multa.push(fechaValue);
+        multa.push(link);
       } catch (error) {}
       multas.push(multa);
     }
